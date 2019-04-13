@@ -39,7 +39,7 @@ func (sess *Session) GetItems(req ItemsRequest) (Items, error) {
 	}
 
 	var response Items
-	err := sess.apiGET("/items/get", query, &response)
+	err := sess.Get("/items/get", query, &response)
 	return response, err
 }
 
@@ -48,7 +48,7 @@ func (sess *Session) GetItemInfo(id Id) (ItemInfo, error) {
 	query.Set("itemId", strconv.Itoa(int(id)))
 
 	var response ItemInfo
-	err := sess.apiGET("/items/info", query, &response)
+	err := sess.Get("/items/info", query, &response)
 	return response, err
 }
 
@@ -62,7 +62,7 @@ func (sess *Session) GetUserInfo(user string, flags ContentTypes) (UserInfo, err
 	query.Set("flags", strconv.Itoa(flags.AsFlags()))
 
 	var response UserInfo
-	err := sess.apiGET("/profile/info", query, &response)
+	err := sess.Get("/profile/info", query, &response)
 	return response, err
 }
 
@@ -75,5 +75,5 @@ func (sess *Session) TagsAdd(itemId Id, tags []string) error {
 	body.ItemId = itemId
 	body.Tags = strings.Join(tags, ",")
 
-	return sess.apiPOST("/tags/add", nil, body, nil)
+	return sess.Post("/tags/add", nil, body, nil)
 }

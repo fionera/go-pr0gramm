@@ -40,7 +40,7 @@ func (sess *Session) Login(username, password string) (*LoginResponse, error) {
 	return &response, err
 }
 
-func (sess *Session) apiGET(path string, query url.Values, target interface{}) error {
+func (sess *Session) Get(path string, query url.Values, target interface{}) error {
 	uri := "https://pr0gramm.com/api" + path
 
 	if query != nil {
@@ -57,14 +57,14 @@ func (sess *Session) apiGET(path string, query url.Values, target interface{}) e
 		_ = response.Body.Close()
 	}()
 
-	if response.StatusCode/100 != 2 {
+	if response.StatusCode != 200 {
 		return fmt.Errorf("error %d", response.StatusCode)
 	}
 
 	return json.NewDecoder(response.Body).Decode(target)
 }
 
-func (sess *Session) apiPOST(path string, query url.Values, body interface{}, target interface{}) error {
+func (sess *Session) Post(path string, query url.Values, body interface{}, target interface{}) error {
 	uri := "https://pr0gramm.com/api" + path
 
 	if query != nil {
@@ -114,7 +114,7 @@ func (sess *Session) apiPOST(path string, query url.Values, body interface{}, ta
 		_ = response.Body.Close()
 	}()
 
-	if response.StatusCode/100 != 2 {
+	if response.StatusCode != 200 {
 		return fmt.Errorf("error %d", response.StatusCode)
 	}
 
