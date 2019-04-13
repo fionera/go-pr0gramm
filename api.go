@@ -10,7 +10,7 @@ func (id Id) String() string {
 	return strconv.Itoa(int(id))
 }
 
-func (sess *Session) GetItems(req ItemsRequest) (Items, error) {
+func (sess *Session) GetItems(req *ItemsRequest) (*Items, error) {
 	query := make(url.Values)
 	query.Set("flags", strconv.Itoa(req.ContentTypes.AsFlags()))
 
@@ -38,32 +38,32 @@ func (sess *Session) GetItems(req ItemsRequest) (Items, error) {
 		query.Set("likes", req.Likes)
 	}
 
-	var response Items
-	err := sess.Get("/items/get", query, &response)
-	return response, err
+	var items Items
+	err := sess.Get("/items/get", query, &items)
+	return &items, err
 }
 
-func (sess *Session) GetItemInfo(id Id) (ItemInfo, error) {
+func (sess *Session) GetItemInfo(id Id) (*ItemInfo, error) {
 	query := make(url.Values)
 	query.Set("itemId", strconv.Itoa(int(id)))
 
-	var response ItemInfo
-	err := sess.Get("/items/info", query, &response)
-	return response, err
+	var itemInfo ItemInfo
+	err := sess.Get("/items/info", query, &itemInfo)
+	return &itemInfo, err
 }
 
-func (sess *Session) GetUserInfoSfw(user string) (UserInfo, error) {
-	return sess.GetUserInfo(user, ContentTypes{SFW})
+func (sess *Session) GetUserInfoSfw(user string) (*UserInfo, error) {
+	return sess.GetUserInfo(user, &ContentTypes{SFW})
 }
 
-func (sess *Session) GetUserInfo(user string, flags ContentTypes) (UserInfo, error) {
+func (sess *Session) GetUserInfo(user string, flags *ContentTypes) (*UserInfo, error) {
 	query := make(url.Values)
 	query.Set("name", user)
 	query.Set("flags", strconv.Itoa(flags.AsFlags()))
 
-	var response UserInfo
-	err := sess.Get("/profile/info", query, &response)
-	return response, err
+	var userInfo UserInfo
+	err := sess.Get("/profile/info", query, &userInfo)
+	return &userInfo, err
 }
 
 func (sess *Session) TagsAdd(itemId Id, tags []string) error {

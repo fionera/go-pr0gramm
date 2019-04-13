@@ -23,12 +23,12 @@ func (ct *Timestamp) UnmarshalJSON(b []byte) (err error) {
 	return
 }
 
-func (ct Timestamp) MarshalJSON() ([]byte, error) {
+func (ct *Timestamp) MarshalJSON() ([]byte, error) {
 	formatted := strconv.FormatInt(int64(ct.Time.Unix()), 10)
 	return []byte(formatted), nil
 }
 
-func (ct Timestamp) MarshalText() (text []byte, err error) {
+func (ct *Timestamp) MarshalText() (text []byte, err error) {
 	value := strconv.Itoa(int(ct.Unix()))
 	return []byte(value), nil
 }

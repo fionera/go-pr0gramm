@@ -14,10 +14,10 @@ import (
 )
 
 type Session struct {
-	client http.Client
+	client *http.Client
 }
 
-func NewSession(client http.Client) *Session {
+func NewSession(client *http.Client) *Session {
 	client.Jar, _ = cookiejar.New(nil)
 	return &Session{client: client}
 }
